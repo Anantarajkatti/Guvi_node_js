@@ -1,0 +1,7 @@
+end point to create timestamp text file in inbuilt folder
+
+:renderURL/datetime
+
+endpoint to retrive files in inbuilt folder
+
+:renderURL/retrive
