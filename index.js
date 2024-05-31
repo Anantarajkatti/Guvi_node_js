@@ -1,14 +1,16 @@
 const express = require('express')// third party package
 const fs = require('fs');
 const app = express()   //assigned
- const PORT=5000;
+ const PORT=4000;
+
+ const filePath = './inbuilt/current_date_time.txt';
 
 
 
 
 
 app.get('/', function (req, res) {         // http method (root end point)
-  res.send('Hello this node js task 1------1)type /datetime to create current date-time file')                  // what response to be sent
+  res.send('Hello this node js task <hr/>1) /datetime<br/> to create current date-time file<br/> <br/>2)/datetime/read <br/> for reading the Date file<br/><br/>3) /retrive<br/> for reading directory')                  // what response to be sent
 })    
 
 
@@ -36,7 +38,7 @@ app.get('/datetime', function (req, res) {
 
         fs.writeFile("./inbuilt/current_date_time.txt", timestampIST , (err) => {
         console.log("Completed writing current_date_time.txt") 
-        res.send("Completed writing current_date_time.txt") })       
+        res.send("Completed writing current_date_time.txt <br/><br/> now provide <br/><br/> URL:-----http://localhost:4000/datetime/read ") })       
                     
   }) 
 
@@ -47,5 +49,19 @@ app.get('/datetime', function (req, res) {
         res.send(files)
     })
 })
+
+//------------------------------
+
+  app.get('/datetime/read', function (req, res) {
+    const fs = require('fs');  
+  fs.readFile('./inbuilt/current_date_time.txt',"utf-8" ,(err, data) => {
+      
+    if (err) {
+      console.error('Error reading file:', err);
+    } 
+      console.log('Successfully read timestamp:', data);
+     res.send(data); // Send the timestamp data as the response
+  });
+ });
 
 app.listen(PORT,()=>console.log("server is running on PORT", PORT))                          // you can give any number
