@@ -3,7 +3,7 @@ const fs = require("fs");
 const app = express(); //assigned
 const PORT = 4000;
 
-const filePath = "./inbuilt/current_date_time.txt";
+//const filePath = "./inbuilt/current_date_time.txt";
 
 app.get("/", function (req, res) {
   // http method (root end point)
@@ -30,14 +30,16 @@ app.get("/datetime", function (req, res) {
     second: "2-digit", // Display second with leading zero
   };
 
-  const timestampIST = timeStamp.toLocaleString("en-IN", options);
+  const timestampIST = timeStamp.toLocaleString("en-IN", options).replace(/[\/,:\s]/g, "-");
 
   console.log(timestampIST);
+  console.log(typeof(timestampIST));
+  const filePath = `./inbuilt/${timestampIST}.txt`;
 
-  fs.writeFile("./inbuilt/current_date_time.txt", timestampIST, (err) => {
+  fs.writeFile(filePath, timestampIST, (err) => {
     console.log("Completed writing current_date_time.txt");
     res.send(
-      "Completed writing current_date_time.txt <br/><br/> now provide <br/><br/> URL:-----http://localhost:4000/datetime/read "
+      `Completed writing file ${filePath}<br/>${timestampIST}<br/> now provide <br/><br/> URL:-----http://localhost:4000/datetime/read `
     );
   });
 });
@@ -52,15 +54,15 @@ app.get("/retrive", function (req, res) {
 
 //------------------------------//datetime/read
 
-app.get("/datetime/read", function (req, res) {
-  const fs = require("fs");
-  fs.readFile("./inbuilt/current_date_time.txt", "utf-8", (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-    }
-    console.log("Successfully read timestamp:", data);
-    res.send(data); // Send the timestamp data as the response
-  });
-});
+// app.get("/datetime/read", function (req, res) {
+//   const fs = require("fs");
+//   fs.readFile("./inbuilt/current_date_time.txt", "utf-8", (err, data) => {
+//     if (err) {
+//       console.error("Error reading file:", err);
+//     }
+//     console.log("Successfully read timestamp:", data);
+//     res.send(data); // Send the timestamp data as the response
+//   });
+// });
 
 app.listen(PORT, () => console.log("server is running on PORT", PORT)); // you can give any number
